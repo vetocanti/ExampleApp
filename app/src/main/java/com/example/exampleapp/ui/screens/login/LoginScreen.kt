@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button // <-- 1. Importa el componente Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -22,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import com.example.exampleapp.ui.components.PasswordTextField
 
 @Composable
-fun LoginScreen(onGo: (String) -> Unit) {
+fun LoginScreen(onGo: (String) -> Unit, onGoToRegister: () -> Unit) {
     // El estado para el campo de usuario (ya lo tenías)
     var textState by remember { mutableStateOf(TextFieldValue("")) }
     // El estado para la contraseña (ya lo tenías)
@@ -77,6 +78,12 @@ fun LoginScreen(onGo: (String) -> Unit) {
             enabled = textState.text.isNotEmpty() && password.isNotEmpty()
         ) {
             Text("Ir a Home")
+        }
+        TextButton(onClick = {
+            onGoToRegister()
+        /* Aquí necesitamos un callback para ir a registro */ }) {
+
+            Text("¿No tienes cuenta? Regístrate")
         }
     }
 }

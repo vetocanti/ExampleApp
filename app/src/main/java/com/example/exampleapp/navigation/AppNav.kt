@@ -6,8 +6,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.exampleapp.ui.screens.detail.DetailScreen
 import com.example.exampleapp.ui.screens.home.HomeScreen
-// 1. IMPORTAR la pantalla que falta
 import com.example.exampleapp.ui.screens.login.LoginScreen
+import com.example.exampleapp.ui.screens.register.RegisterScreen
 
 @Composable
 fun AppNav() {
@@ -24,7 +24,8 @@ fun AppNav() {
                 onGo = { username -> // El 'username' viene desde LoginScreen
                     // 3. Al hacer clic, navega a "home".
                     nav.navigate("home")
-                }
+                },
+                onGoToRegister = { nav.navigate("register") }
             )
         }
 
@@ -47,6 +48,12 @@ fun AppNav() {
             // Es buena práctica manejar el caso en que el id sea nulo.
             requireNotNull(id) { "El ID no puede ser nulo" }
             DetailScreen(id = id)
+        }
+
+        composable(route = "register") {
+            RegisterScreen(onGo= { nav.navigate("login") {
+                popUpTo("login") { inclusive = true}
+            } })
         }
     }
 }
