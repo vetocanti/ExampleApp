@@ -18,14 +18,17 @@ fun AppNav() {
         // --- Definición de la ruta "login" ---
         // Aquí es donde el usuario comienza.
         composable(route = "login") {
-            // 2. LLAMAR a LoginScreen, no a HomeScreen.
-            //    La lambda `onGo` se activa cuando el botón es presionado.
+            // La llamada ya está correcta, con los dos callbacks de navegación
             LoginScreen(
-                onGo = { username -> // El 'username' viene desde LoginScreen
-                    // 3. Al hacer clic, navega a "home".
-                    nav.navigate("home")
+                onLoginSuccess = { // Se ejecuta cuando el login es exitoso
+                    // Navega a home y limpia el historial de navegación para que el usuario no pueda "volver atrás" al login
+                    nav.navigate("home") {
+                        popUpTo(nav.graph.startDestinationId) { inclusive = true }
+                    }
                 },
-                onGoToRegister = { nav.navigate("register") }
+                onGoToRegister = { // Se ejecuta al pulsar "Regístrate"
+                    nav.navigate("register")
+                }
             )
         }
 
@@ -51,7 +54,10 @@ fun AppNav() {
         }
 
         composable(route = "register") {
-            RegisterScreen(onGo= { nav.navigate("login") {
+            RegisterScreen(onGo= {
+
+                nav.navigate("login") {
+
                 popUpTo("login") { inclusive = true}
             } })
         }
